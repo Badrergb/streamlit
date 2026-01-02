@@ -9,106 +9,146 @@ st.set_page_config(
 )
 
 # --- CUSTOM CSS ---
-# This adds a modern gradient background and styles the buttons
 st.markdown("""
     <style>
-    /* 1. MAIN BACKGROUND GRADIENT */
+    /* 1. BACKGROUND GRADIENT */
     .stApp {
-        background: linear-gradient(135deg, #141414 0%, #1e2a38 100%);
-        background-attachment: fixed;
+        background: linear-gradient(135deg, #0e1117 0%, #161b22 100%);
     }
 
-    /* 2. CARD/CONTAINER STYLING */
-    div[data-testid="stMetric"], div[data-testid="stMarkdownContainer"] p {
-        color: #e0e0e0; /* Light text for dark mode */
-    }
-    
-    /* 3. SIDEBAR STYLING */
+    /* 2. SIDEBAR STYLING */
     [data-testid="stSidebar"] {
-        background-color: #0e1117;
-        border-right: 1px solid #262730;
+        background-color: #0d1117;
+        border-right: 1px solid #30363d;
     }
     
+    /* 3. PROFILE PICTURE STYLING */
+    .profile-pic {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        border-radius: 50%;
+        border: 3px solid #0077b6;
+        box-shadow: 0 4px 10px rgba(0, 119, 182, 0.3);
+        width: 130px;
+        height: 130px;
+        object-fit: cover;
+    }
+
     /* 4. BUTTON STYLING */
     .stButton>button {
         width: 100%;
         border-radius: 8px;
-        height: 3em;
-        background-color: #0077b6; /* Primary Blue */
+        font-weight: 600;
+        background-color: #238636; /* GitHub Green */
         color: white;
-        border: none;
-        transition: all 0.3s ease;
+        border: 1px solid rgba(240, 246, 252, 0.1);
+        transition: all 0.2s;
     }
     .stButton>button:hover {
-        background-color: #0096c7;
-        transform: translateY(-2px);
-        box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+        background-color: #2ea043;
+        transform: scale(1.02);
+    }
+    
+    /* 5. CONTACT CARD STYLING */
+    .contact-card {
+        background-color: #161b22;
+        padding: 15px;
+        border-radius: 10px;
+        border: 1px solid #30363d;
+        text-align: center;
+        margin-top: 10px;
+        color: #c9d1d9;
     }
     </style>
 """, unsafe_allow_html=True)
 
-# --- SIDEBAR NAVIGATION ---
+# --- SIDEBAR SECTION ---
 with st.sidebar:
-    st.image("https://cdn-icons-png.flaticon.com/512/4140/4140048.png", width=120)
-    st.markdown("## Navigation")
+    # Profile Image
+    st.markdown('<img src="https://cdn-icons-png.flaticon.com/512/4140/4140048.png" class="profile-pic">', unsafe_allow_html=True)
     
-    # REPLACED RADIO BUTTONS WITH OPTION MENU
+    st.write("") # Spacer
+    st.markdown("<h3 style='text-align: center; color: white;'>Badre Narayanan</h3>", unsafe_allow_html=True)
+    st.markdown("<p style='text-align: center; color: #8b949e; font-size: 14px;'>Data Scientist & <br> Sports Analytics Specialist</p>", unsafe_allow_html=True)
+
+    # Navigation Menu
     selected = option_menu(
-        menu_title=None,  # Required
+        menu_title=None,
         options=["Home", "About Me", "Projects", "Skills", "Contact"],
-        icons=["house", "person", "code-slash", "tools", "envelope"],  # Bootstrap Icons
-        menu_icon="cast",
+        icons=["house", "person-circle", "code-slash", "tools", "envelope-paper"],
         default_index=0,
         styles={
-            "container": {"padding": "0!important", "background-color": "transparent"},
-            "icon": {"color": "#0077b6", "font-size": "20px"}, 
-            "nav-link": {"font-size": "16px", "text-align": "left", "margin": "5px", "--hover-color": "#262730"},
-            "nav-link-selected": {"background-color": "#0077b6"},
+            "container": {"background-color": "transparent", "padding": "0!important"},
+            "icon": {"color": "#58a6ff", "font-size": "18px"}, 
+            "nav-link": {"font-size": "15px", "text-align": "left", "margin": "5px", "color": "#c9d1d9"},
+            "nav-link-selected": {"background-color": "#1f6feb", "color": "white"},
         }
     )
     
     st.markdown("---")
-    st.write("📍 **Coimbatore, India**")
-    st.write("📧 narayananbadre@gmail.com")
-    st.markdown("[GitHub Profile](https://github.com/Badrergb/)")
+    
+    # Attractive Contact Section
+    st.markdown("### 📬 Quick Connect")
+    
+    col1, col2 = st.columns(2)
+    with col1:
+        st.link_button("GitHub", "https://github.com/Badrergb/", use_container_width=True)
+    with col2:
+        st.link_button("Email", "mailto:narayananbadre@gmail.com", use_container_width=True)
+
+    # Styled Info Card
+    st.markdown("""
+    <div class="contact-card">
+        <div style="font-size: 14px; margin-bottom: 5px;">📍 Coimbatore, India</div>
+        <div style="font-size: 14px;">📞 +91 74188 06611</div>
+    </div>
+    """, unsafe_allow_html=True)
+
 
 # --- HOME SECTION ---
 if selected == "Home":
-    st.title("Hello, I'm Badre Narayanan RG 👋")
-    st.subheader("Data Scientist | Full Stack Developer | Sports Analytics")
+    st.markdown("## Hello, I'm Badre Narayanan RG 👋")
+    st.markdown("#### *Building the future with Automation, AI, and Sports Analytics.*")
     
-    col1, col2 = st.columns([1, 2], gap="medium")
+    st.markdown("---")
+    
+    col1, col2 = st.columns([1.5, 1], gap="medium")
     
     with col1:
-        st.image("https://cdn-icons-png.flaticon.com/512/4140/4140048.png", caption="Badre Narayanan RG", width=300)
-        
-    with col2:
-        st.markdown("""
-        ### 🚀 Building the future with Automation, AI, and Sports Analytics.
-        
+        st.write("""
         I am an **Integrated MSc Data Science** student at **Amrita Vishwa Vidyapeetham**. 
-        Unlike a traditional developer, I specialize in the intersection of **Sports & AI**. 
         
+        Unlike a traditional developer, I specialize in the intersection of **Sports & AI**. 
         I build intelligent systems that can analyze football tactics using **Graph Theory** and **Reinforcement Learning**, 
         while also possessing the **Full-Stack Engineering** skills to deploy them as real-world applications.
         """)
         
         st.download_button(
-            label="📄 Download Resume",
-            data="Placeholder for actual resume PDF bytes",
-            file_name="Badre_Narayanan_Resume.pdf",
-            mime="application/pdf"
+            label="📄 Download My Resume",
+            data="Placeholder PDF Data", 
+            file_name="Badre_Resume.pdf",
+            mime="application/pdf",
         )
-        st.info("💡 Check out the 'Projects' tab to see my work in Sports Analytics!")
+
+    with col2:
+        # A placeholder for a hero image or animation
+        st.markdown("""
+        <div style="background-color: #161b22; padding: 20px; border-radius: 10px; border: 1px solid #30363d;">
+            <h4 style="color: #58a6ff;">Current Focus</h4>
+            <ul style="list-style-type: none; padding-left: 0; color: #c9d1d9;">
+                <li>⚽ Football Analytics</li>
+                <li>🤖 Reinforcement Learning</li>
+                <li>📊 Graph Theory</li>
+            </ul>
+        </div>
+        """, unsafe_allow_html=True)
 
 # --- ABOUT ME SECTION ---
 elif selected == "About Me":
     st.title("About Me 👨‍💻")
     
-    st.markdown("""
-    I am a Data Science enthusiast bridging the gap between complex data and real-world applications using Python, Java, and Machine Learning.
-    Currently, I am focused on mastering **Reinforcement Learning** and **Graph Theory** applied to football analytics.
-    """)
+    st.write("I am a Data Science enthusiast bridging the gap between complex data and real-world applications using Python, Java, and Machine Learning.")
     
     st.markdown("---")
     
@@ -116,7 +156,7 @@ elif selected == "About Me":
     
     with col1:
         st.subheader("🎓 Education")
-        st.markdown("""
+        st.info("""
         **Integrated MSc Data Science** *Amrita Vishwa Vidyapeetham (2022 - 2027)*
         
         **Higher Secondary (CBSE)** *Chelammal Vidhyaashram (2022)*
@@ -124,44 +164,42 @@ elif selected == "About Me":
         
     with col2:
         st.subheader("🏆 Certifications")
-        st.markdown("""
+        st.success("""
         ✅ **Data Analysis with Python** - IBM  
         ✅ **Deep Learning Specialization** (In Progress)
         """)
 
 # --- PROJECTS SECTION ---
 elif selected == "Projects":
-    st.title("Featured Projects 📂")
-    st.markdown("Here are some of the key projects I've worked on.")
-    st.markdown("---")
+    st.title("Featured Projects 🚀")
     
-    # Helper function to create project cards
-    def project_card(title, tech, desc, link, link_text="View Code"):
+    # Helper function for project cards
+    def project_card(title, tech_stack, description, link):
         with st.container():
             st.markdown(f"### {title}")
-            st.caption(f"🔧 {tech}")
-            st.write(desc)
-            st.link_button(link_text, link)
-            st.markdown("---")
+            st.caption(f"🔧 Tech Stack: {tech_stack}")
+            st.write(description)
+            st.link_button("View Code", link)
+            st.divider()
 
     project_card(
-        "🌾 Farmer Management System", 
-        "Java | PostgreSQL | JSP",
-        "A secure digital ledger for farmers to manage crop inventory and sales, bridging the gap to market prices.",
+        "🌾 Farmer Management System",
+        "Java | PostgreSQL | JSP | NetBeans",
+        "A secure digital ledger for farmers to manage crop inventory and sales, bridging the gap to market prices. Includes secure user authentication and inventory management.",
         "https://github.com/Badrergb/Farmer-Management-System"
     )
 
     project_card(
-        "🤖 RL Football Agent", 
-        "Python | TensorFlow | RL",
-        "Autonomous AI agent trained to make optimal tactical decisions in simulated matches using Deep Q-Networks (DQN).",
+        "🤖 RL Football Agent",
+        "Python | TensorFlow | Reinforcement Learning",
+        "Autonomous AI agent trained to make optimal tactical decisions in simulated matches using Deep Q-Networks (DQN). Features reward system optimization.",
         "#"
     )
 
     project_card(
-        "⚽ Pass Network Analysis", 
-        "Graph Theory | Python | Data Viz",
-        "Visualizing team performance and player centrality using Graph Theory on match data.",
+        "⚽ Pass Network Analysis",
+        "Graph Theory | Python | Data Visualization",
+        "Visualizing team performance and player centrality using Graph Theory on match data. Calculates centrality metrics and visualizes passing flow.",
         "#"
     )
 
@@ -169,22 +207,29 @@ elif selected == "Projects":
 elif selected == "Skills":
     st.title("Technical Skills 🛠️")
     
-    col1, col2 = st.columns(2, gap="large")
+    tab1, tab2 = st.tabs(["💻 Programming & AI", "🌐 Development & DB"])
     
-    with col1:
-        st.subheader("Python & AI")
-        st.progress(90, text="Python (Pandas, Numpy, Scikit-Learn)")
-        st.progress(85, text="Machine Learning & RL")
-        st.progress(80, text="Data Visualization (Matplotlib, Seaborn)")
+    with tab1:
+        st.subheader("Python & Artificial Intelligence")
+        st.write("Python (Pandas, Numpy, Scikit-Learn)")
+        st.progress(90)
+        
+        st.write("Machine Learning & RL")
+        st.progress(85)
+        
+        st.write("Data Visualization (Matplotlib, Seaborn)")
+        st.progress(80)
 
-    with col2:
-        st.subheader("Development & DB")
-        st.progress(80, text="Java Development")
-        st.progress(75, text="SQL (MySQL, PostgreSQL)")
-        st.progress(70, text="Web (HTML/CSS, Streamlit)")
-
-    st.subheader("Other Skills")
-    st.markdown("`Graph Theory` `Sports Analytics` `Automation` `Tableau`")
+    with tab2:
+        st.subheader("Web & Databases")
+        st.write("Java Development")
+        st.progress(80)
+        
+        st.write("SQL (MySQL, PostgreSQL)")
+        st.progress(75)
+        
+        st.write("Web (HTML/CSS, Streamlit)")
+        st.progress(70)
 
 # --- CONTACT SECTION ---
 elif selected == "Contact":
@@ -192,24 +237,28 @@ elif selected == "Contact":
     
     st.write("Feel free to reach out to me for collaborations, especially in **Sports Analytics** or **AI** projects.")
     
-    col1, col2, col3 = st.columns(3)
+    # Modern Contact Form using Columns
+    col1, col2 = st.columns([2, 1], gap="large")
+    
     with col1:
-        st.info("📧 **Email**\n\nnarayananbadre@gmail.com")
+        contact_form = """
+        <form action="https://formsubmit.co/narayananbadre@gmail.com" method="POST">
+            <input type="hidden" name="_captcha" value="false">
+            <input type="text" name="name" placeholder="Your Name" required style="width: 100%; padding: 12px; margin-bottom: 10px; border: 1px solid #30363d; border-radius: 5px; background-color: #0d1117; color: white;">
+            <input type="email" name="email" placeholder="Your Email" required style="width: 100%; padding: 12px; margin-bottom: 10px; border: 1px solid #30363d; border-radius: 5px; background-color: #0d1117; color: white;">
+            <textarea name="message" placeholder="Your Message" required style="width: 100%; padding: 12px; margin-bottom: 10px; height: 150px; border: 1px solid #30363d; border-radius: 5px; background-color: #0d1117; color: white;"></textarea>
+            <button type="submit" style="background-color: #238636; color: white; padding: 12px 20px; border: none; border-radius: 5px; cursor: pointer; width: 100%; font-weight: bold;">Send Message</button>
+        </form>
+        """
+        st.markdown(contact_form, unsafe_allow_html=True)
+    
     with col2:
-        st.info("📱 **Phone**\n\n+91 74188 06611")
-    with col3:
-        st.info("📍 **Location**\n\nCoimbatore, India")
-    
-    st.markdown("---")
-    
-    st.subheader("Send me a message")
-    contact_form = """
-    <form action="https://formsubmit.co/narayananbadre@gmail.com" method="POST">
-        <input type="hidden" name="_captcha" value="false">
-        <input type="text" name="name" placeholder="Your Name" required style="width: 100%; padding: 12px; margin-bottom: 10px; border: 1px solid #444; border-radius: 5px; background-color: #262730; color: white;">
-        <input type="email" name="email" placeholder="Your Email" required style="width: 100%; padding: 12px; margin-bottom: 10px; border: 1px solid #444; border-radius: 5px; background-color: #262730; color: white;">
-        <textarea name="message" placeholder="Your Message" required style="width: 100%; padding: 12px; margin-bottom: 10px; height: 150px; border: 1px solid #444; border-radius: 5px; background-color: #262730; color: white;"></textarea>
-        <button type="submit" style="background-color: #0077b6; color: white; padding: 12px 20px; border: none; border-radius: 5px; cursor: pointer; width: 100%;">Send Message</button>
-    </form>
-    """
-    st.markdown(contact_form, unsafe_allow_html=True)
+        st.markdown("#### Contact Details")
+        st.markdown("📧 **Email**")
+        st.caption("narayananbadre@gmail.com")
+        
+        st.markdown("📱 **Phone**")
+        st.caption("+91 74188 06611")
+        
+        st.markdown("📍 **Location**")
+        st.caption("Coimbatore, India")
