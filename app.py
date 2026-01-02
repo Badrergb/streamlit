@@ -16,7 +16,7 @@ st.markdown("""
         background-color: #0e1117;
     }
     h1, h2, h3 {
-        color: #58a6ff; /* Professional Blue */
+        color: #58a6ff;
         font-family: 'Helvetica', sans-serif;
     }
     p, div {
@@ -34,7 +34,7 @@ st.markdown("""
         display: block;
         margin: auto;
         border-radius: 50%;
-        border: 3px solid #30363d; /* Subtle dark border */
+        border: 3px solid #30363d;
         width: 140px;
         height: 140px;
         object-fit: cover;
@@ -42,7 +42,7 @@ st.markdown("""
 
     /* 4. BUTTONS */
     .stButton>button {
-        background-color: #1f6feb; /* Corporate Blue */
+        background-color: #1f6feb;
         color: white;
         border-radius: 6px;
         border: none;
@@ -75,23 +75,22 @@ with st.sidebar:
     
     st.write("---")
     
-    # Professional Menu (No emojis in titles)
+    # --- NAVIGATION MENU ---
     selected = option_menu(
         menu_title=None,
         options=["Home", "Projects", "Skills", "Contact"],
-        icons=["house", "briefcase", "tools", "envelope"], # Standard Bootstrap Icons
+        icons=["house", "briefcase", "tools", "envelope"], 
         default_index=0,
         styles={
             "container": {"background-color": "transparent"},
             "icon": {"color": "#8b949e", "font-size": "18px"},
             "nav-link": {"font-size": "15px", "color": "#c9d1d9", "text-align": "left", "margin": "0px"},
-            "nav-link-selected": {"background-color": #21262d, "color": "white", "border-left": "3px solid #58a6ff"},
+            "nav-link-selected": {"background-color": "#21262d", "color": "white", "border-left": "3px solid #58a6ff"},
         }
     )
     
     st.write("---")
     
-    # Clean Links
     col1, col2 = st.columns(2)
     with col1:
         st.link_button("GitHub", "https://github.com/Badrergb/", use_container_width=True)
