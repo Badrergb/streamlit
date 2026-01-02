@@ -1,96 +1,118 @@
 import streamlit as st
 from streamlit_option_menu import option_menu
+import requests
+from streamlit_lottie import st_lottie
+import plotly.graph_objects as go
 
 # --- PAGE CONFIGURATION ---
-st.set_page_config(
-    page_title="Badre Narayanan RG | Portfolio",
-    page_icon="💼",
-    layout="wide",
-)
+st.set_page_config(page_title="Badre Narayanan | Portfolio", page_icon="⚽", layout="wide")
 
-# --- CUSTOM CSS ---
+# --- HELPER FUNCTION FOR ANIMATIONS ---
+def load_lottieurl(url):
+    r = requests.get(url)
+    if r.status_code != 200:
+        return None
+    return r.json()
+
+# Load Assets (Lottie Animations)
+lottie_coding = load_lottieurl("https://assets5.lottiefiles.com/packages/lf20_fcfjwiyb.json")
+lottie_football = load_lottieurl("https://lottie.host/5aee9356-3d60-449e-b91c-7c01d957ba5c/F45s73X1f7.json")
+lottie_contact = load_lottieurl("https://assets9.lottiefiles.com/packages/lf20_u25cckyh.json")
+
+# --- CUSTOM CSS (Glassmorphism & Hover Effects) ---
 st.markdown("""
     <style>
-    /* 1. BACKGROUND & TEXT */
+    /* Global Background */
     .stApp {
-        background-color: #0e1117;
-    }
-    h1, h2, h3 {
-        color: #58a6ff;
-        font-family: 'Helvetica', sans-serif;
-    }
-    p, div {
-        color: #e6e6e6;
+        background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
     }
     
-    /* 2. SIDEBAR STYLING */
+    /* Sidebar Styling */
     [data-testid="stSidebar"] {
-        background-color: #0d1117;
-        border-right: 1px solid #30363d;
+        background-color: #020617;
+        border-right: 1px solid #1e293b;
     }
     
-    /* 3. PROFILE PICTURE */
+    /* Profile Image Styling */
     .profile-pic {
-        display: block;
-        margin: auto;
         border-radius: 50%;
-        border: 3px solid #30363d;
-        width: 140px;
-        height: 140px;
-        object-fit: cover;
+        border: 4px solid #3b82f6;
+        box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        transition: transform 0.3s ease;
     }
-
-    /* 4. BUTTONS */
+    .profile-pic:hover {
+        transform: scale(1.05);
+    }
+    
+    /* Glassmorphism Cards */
+    .glass-card {
+        background: rgba(30, 41, 59, 0.7);
+        backdrop-filter: blur(10px);
+        border-radius: 15px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 20px;
+        margin-bottom: 20px;
+        transition: transform 0.2s;
+    }
+    .glass-card:hover {
+        transform: translateY(-5px);
+        border-color: #3b82f6;
+    }
+    
+    /* Text Styling */
+    h1, h2, h3 {
+        color: #60a5fa !important;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    p, li {
+        color: #cbd5e1 !important;
+        font-size: 16px;
+    }
+    
+    /* Custom Button */
     .stButton>button {
-        background-color: #1f6feb;
+        background: linear-gradient(90deg, #2563eb 0%, #3b82f6 100%);
         color: white;
-        border-radius: 6px;
         border: none;
-        height: 3em;
-        font-weight: 500;
-        transition: background-color 0.2s;
+        border-radius: 8px;
+        height: 45px;
+        font-weight: bold;
+        transition: all 0.3s;
     }
     .stButton>button:hover {
-        background-color: #388bfd;
-    }
-    
-    /* 5. CONTACT CARD */
-    .contact-info {
-        background-color: #161b22;
-        padding: 15px;
-        border-radius: 6px;
-        border: 1px solid #30363d;
-        margin-top: 10px;
-        font-size: 14px;
+        box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
+        transform: scale(1.02);
     }
     </style>
 """, unsafe_allow_html=True)
 
 # --- SIDEBAR ---
 with st.sidebar:
-    st.markdown('<img src="https://cdn-icons-png.flaticon.com/512/4140/4140048.png" class="profile-pic">', unsafe_allow_html=True)
+    st.markdown('<img src="https://cdn-icons-png.flaticon.com/512/4140/4140048.png" class="profile-pic" width="140">', unsafe_allow_html=True)
     st.write("")
-    st.markdown("<h3 style='text-align: center; color: white; margin-bottom: 0;'>Badre Narayanan</h3>", unsafe_allow_html=True)
-    st.markdown("<p style='text-align: center; color: #8b949e; font-size: 14px;'>Data Scientist | Sports Analytics</p>", unsafe_allow_html=True)
+    st.markdown("<h3 style='text-align: center; color: white; margin: 0;'>Badre Narayanan</h3>", unsafe_allow_html=True)
+    st.markdown("<p style='text-align: center; color: #94a3b8; font-size: 14px;'>Data Scientist | Sports Analytics</p>", unsafe_allow_html=True)
     
     st.write("---")
     
-    # --- NAVIGATION MENU ---
     selected = option_menu(
         menu_title=None,
         options=["Home", "Projects", "Skills", "Contact"],
-        icons=["house", "briefcase", "tools", "envelope"], 
+        icons=["house", "rocket", "bar-chart-line", "envelope"],
         default_index=0,
         styles={
             "container": {"background-color": "transparent"},
-            "icon": {"color": "#8b949e", "font-size": "18px"},
-            "nav-link": {"font-size": "15px", "color": "#c9d1d9", "text-align": "left", "margin": "0px"},
-            "nav-link-selected": {"background-color": "#21262d", "color": "white", "border-left": "3px solid #58a6ff"},
+            "icon": {"color": "#60a5fa", "font-size": "18px"},
+            "nav-link": {"font-size": "15px", "color": "#cbd5e1", "margin": "5px"},
+            "nav-link-selected": {"background-color": "#1e293b", "color": "#fff", "border-left": "4px solid #3b82f6"},
         }
     )
     
     st.write("---")
-    
+    st.markdown("### 🌐 Connect")
     col1, col2 = st.columns(2)
     with col1:
         st.link_button("GitHub", "https://github.com/Badrergb/", use_container_width=True)
@@ -99,133 +121,165 @@ with st.sidebar:
 
 # --- HOME SECTION ---
 if selected == "Home":
-    st.title("Badre Narayanan RG")
-    st.subheader("Data Scientist & Full Stack Developer")
-    
-    st.markdown("---")
-
-    col1, col2 = st.columns([2, 1])
+    col1, col2 = st.columns([1.5, 1], gap="medium")
     
     with col1:
-        st.write("""
-        I am an **Integrated MSc Data Science** student at **Amrita Vishwa Vidyapeetham**.
+        st.markdown("# 🚀 Data Science Meets Football")
+        st.markdown("### Hi, I'm **Badre Narayanan**")
+        st.markdown("""
+        I don't just analyze data; I visualize the game. 
         
-        I specialize in the intersection of **Sports Analytics** and **Artificial Intelligence**. 
-        My work focuses on building intelligent systems that analyze football tactics using advanced computational methods.
+        I am an **Integrated MSc Data Science** student at **Amrita Vishwa Vidyapeetham** specializing in **Sports Analytics** and **AI**. 
+        I build systems that help computers understand football tactics using Graph Theory and Reinforcement Learning.
         
-        **Core Competencies:**
-        * Reinforcement Learning
-        * Graph Theory & Network Analysis
-        * Full-Stack Application Development
+        * 🧠 **Tactical AI Assistants**
+        * 📊 **Performance Analytics**
+        * ⚡ **Full-Stack Deployment**
         """)
         
-        # Resume Download Placeholder
-        # with open("resume.pdf", "rb") as pdf_file:
-        #    st.download_button("Download Resume", data=pdf_file.read(), file_name="Badre_Resume.pdf")
+        st.write("") # Spacer
+
+        # Action Buttons
+        c1, c2 = st.columns([1, 1])
+        with c1:
+            st.link_button("📂 View Projects", "https://github.com/Badrergb/", use_container_width=True)
+        with c2:
+            # Resume Download Logic
+            try:
+                with open("resume.pdf", "rb") as pdf_file:
+                    pdf_bytes = pdf_file.read()
+                st.download_button(
+                    label="📄 Download CV",
+                    data=pdf_bytes,
+                    file_name="Badre_Narayanan_Resume.pdf",
+                    mime="application/pdf",
+                    use_container_width=True
+                )
+            except FileNotFoundError:
+                st.warning("⚠️ Resume not uploaded yet")
 
     with col2:
-        st.markdown("""
-        <div style="background-color: #161b22; padding: 20px; border: 1px solid #30363d; border-radius: 6px;">
-            <strong style="color: white;">Current Focus</strong>
-            <ul style="color: #8b949e; padding-left: 20px; margin-top: 10px;">
-                <li>Tactical AI Assistants</li>
-                <li>Performance Analysis</li>
-                <li>Real-time Decision Systems</li>
-            </ul>
-        </div>
-        """, unsafe_allow_html=True)
+        # Lottie Animation
+        if lottie_coding:
+            st_lottie(lottie_coding, height=350, key="coding")
 
 # --- PROJECTS SECTION ---
 elif selected == "Projects":
-    st.title("Projects")
-    st.write("A selection of technical projects demonstrating data science and development capabilities.")
-    st.markdown("---")
+    st.title("🏆 Featured Projects")
+    st.markdown("Explore my work in Sports AI and Software Development.")
+    st.write("")
 
     # Project 1
     with st.container():
-        st.subheader("Farmer Management System")
-        st.caption("Java | PostgreSQL | NetBeans")
-        st.write("""
-        Developed a secure digital ledger system for agricultural inventory management. 
-        Facilitates direct sales to markets and includes robust user authentication.
-        """)
-        st.link_button("View Source Code", "https://github.com/Badrergb/Farmer-Management-System")
-    
-    st.markdown("---")
+        st.markdown('<div class="glass-card">', unsafe_allow_html=True)
+        col1, col2 = st.columns([1, 3])
+        with col1:
+             st.image("https://cdn-icons-png.flaticon.com/512/2640/2640635.png", width=100)
+        with col2:
+            st.subheader("🌾 Farmer Management System")
+            st.markdown("**Tech:** `Java` `PostgreSQL` `NetBeans`")
+            st.write("A secure digital ledger for farmers to manage crop inventory and sales, designed to bridge the gap to market prices.")
+            st.link_button("View Code", "https://github.com/Badrergb/Farmer-Management-System")
+        st.markdown('</div>', unsafe_allow_html=True)
 
     # Project 2
     with st.container():
-        st.subheader("RL Football Agent")
-        st.caption("Python | TensorFlow | Reinforcement Learning")
-        st.write("""
-        Designed an autonomous agent using Deep Q-Networks (DQN) to simulate and optimize tactical decision-making in football.
-        Focuses on reward system optimization and state-space exploration.
-        """)
-        st.button("Code Coming Soon", disabled=True)
+        st.markdown('<div class="glass-card">', unsafe_allow_html=True)
+        col1, col2 = st.columns([1, 3])
+        with col1:
+             st.image("https://cdn-icons-png.flaticon.com/512/1165/1165187.png", width=100)
+        with col2:
+            st.subheader("🤖 RL Football Agent")
+            st.markdown("**Tech:** `Python` `TensorFlow` `Reinforcement Learning`")
+            st.write("Autonomous AI agent trained using Deep Q-Networks (DQN) to make optimal tactical decisions in simulated matches.")
+            st.button("Demo Coming Soon", disabled=True)
+        st.markdown('</div>', unsafe_allow_html=True)
     
-    st.markdown("---")
-
     # Project 3
     with st.container():
-        st.subheader("Pass Network Analysis")
-        st.caption("Python | NetworkX | Graph Theory")
-        st.write("""
-        Applied Graph Theory centrality metrics to match data to visualize player connectivity and team performance structure.
-        """)
-        st.button("View Visualization", disabled=True)
+        st.markdown('<div class="glass-card">', unsafe_allow_html=True)
+        col1, col2 = st.columns([1, 3])
+        with col1:
+             st.image("https://cdn-icons-png.flaticon.com/512/2103/2103633.png", width=100)
+        with col2:
+            st.subheader("🕸️ Pass Network Analysis")
+            st.markdown("**Tech:** `NetworkX` `Matplotlib` `Graph Theory`")
+            st.write("Visualizing team performance and player centrality using Graph Theory on match data to identify passing channels.")
+            st.button("View Viz", disabled=True)
+        st.markdown('</div>', unsafe_allow_html=True)
 
 # --- SKILLS SECTION ---
 elif selected == "Skills":
-    st.title("Technical Proficiency")
+    st.title("⚡ Technical Arsenal")
     
-    col1, col2 = st.columns(2, gap="large")
+    col1, col2 = st.columns([1, 1.5])
     
     with col1:
-        st.subheader("Data Science & AI")
-        st.write("**Python (Pandas, NumPy)**")
-        st.progress(90)
-        st.write("**Machine Learning & RL**")
-        st.progress(85)
-        st.write("**Data Visualization**")
-        st.progress(80)
-
+        st.subheader("My Expertise")
+        st.markdown("""
+        I combine strong **Data Science foundations** with **Software Engineering** capabilities.
+        
+        * **Languages:** Python, Java, SQL
+        * **AI/ML:** Scikit-Learn, TensorFlow, RL
+        * **Data Viz:** Plotly, Seaborn, Tableau
+        * **Web:** Streamlit, HTML/CSS
+        """)
+        if lottie_football:
+            st_lottie(lottie_football, height=200)
+        
     with col2:
-        st.subheader("Development")
-        st.write("**Java Development**")
-        st.progress(80)
-        st.write("**SQL & Databases**")
-        st.progress(75)
-        st.write("**Web Technologies**")
-        st.progress(70)
+        # INTERACTIVE RADAR CHART
+        categories = ['Python/AI', 'Data Viz', 'SQL/DB', 'Graph Theory', 'Web Dev', 'Communication']
+        values = [90, 85, 80, 75, 70, 85]
+
+        fig = go.Figure()
+        fig.add_trace(go.Scatterpolar(
+            r=values, theta=categories, fill='toself', name='Badre Narayanan',
+            line_color='#3b82f6', fillcolor='rgba(59, 130, 246, 0.4)'
+        ))
+
+        fig.update_layout(
+            polar=dict(
+                radialaxis=dict(visible=True, range=[0, 100], tickfont=dict(color='white')),
+                bgcolor="rgba(0,0,0,0)"
+            ),
+            paper_bgcolor="rgba(0,0,0,0)",
+            plot_bgcolor="rgba(0,0,0,0)",
+            font=dict(color='white'),
+            showlegend=False,
+            height=400,
+            margin=dict(l=40, r=40, t=40, b=40)
+        )
+        st.plotly_chart(fig, use_container_width=True)
 
 # --- CONTACT SECTION ---
 elif selected == "Contact":
-    st.title("Contact Information")
-    st.write("Available for collaborations in Sports Analytics and AI research.")
+    st.title("📬 Get In Touch")
     
-    st.markdown("---")
-    
-    col1, col2 = st.columns([2, 1], gap="large")
+    col1, col2 = st.columns([1, 1])
     
     with col1:
-        st.subheader("Send a Message")
+        st.markdown("""
+        <div class="glass-card">
+            <h4>Contact Details</h4>
+            <p>📧 narayananbadre@gmail.com</p>
+            <p>📱 +91 74188 06611</p>
+            <p>📍 Coimbatore, India</p>
+        </div>
+        """, unsafe_allow_html=True)
+        if lottie_contact:
+            st_lottie(lottie_contact, height=200)
+    
+    with col2:
+        st.markdown('<div class="glass-card">', unsafe_allow_html=True)
         contact_form = """
         <form action="https://formsubmit.co/narayananbadre@gmail.com" method="POST">
             <input type="hidden" name="_captcha" value="false">
-            <input type="text" name="name" placeholder="Name" required style="width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 4px; border: 1px solid #30363d; background-color: #0d1117; color: white;">
-            <input type="email" name="email" placeholder="Email" required style="width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 4px; border: 1px solid #30363d; background-color: #0d1117; color: white;">
-            <textarea name="message" placeholder="Message" required style="width: 100%; padding: 10px; margin-bottom: 10px; height: 150px; border-radius: 4px; border: 1px solid #30363d; background-color: #0d1117; color: white;"></textarea>
-            <button type="submit" style="background-color: #1f6feb; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer;">Send</button>
+            <input type="text" name="name" placeholder="Your Name" required style="width: 100%; padding: 12px; margin-bottom: 10px; border-radius: 5px; border: 1px solid #475569; background-color: #1e293b; color: white;">
+            <input type="email" name="email" placeholder="Your Email" required style="width: 100%; padding: 12px; margin-bottom: 10px; border-radius: 5px; border: 1px solid #475569; background-color: #1e293b; color: white;">
+            <textarea name="message" placeholder="Your Message" required style="width: 100%; padding: 12px; margin-bottom: 10px; height: 150px; border-radius: 5px; border: 1px solid #475569; background-color: #1e293b; color: white;"></textarea>
+            <button type="submit" style="background-color: #3b82f6; color: white; padding: 12px 20px; border: none; border-radius: 5px; cursor: pointer; width: 100%; font-weight: bold;">Send Message</button>
         </form>
         """
         st.markdown(contact_form, unsafe_allow_html=True)
-    
-    with col2:
-        st.subheader("Details")
-        st.markdown("""
-        <div class="contact-info">
-            <div style="margin-bottom: 10px;"><strong>Email:</strong> narayananbadre@gmail.com</div>
-            <div style="margin-bottom: 10px;"><strong>Phone:</strong> +91 74188 06611</div>
-            <div><strong>Location:</strong> Coimbatore, India</div>
-        </div>
-        """, unsafe_allow_html=True)
+        st.markdown('</div>', unsafe_allow_html=True)
